@@ -58,12 +58,13 @@ def send_vesc_command(ser_port, pos, kp, kd):
 BAUDRATE = 500000
 teensy_serial_port = '/dev/cu.usbmodem3018921'
 
+data_folder = 'data/'
+
 
 phase0_angle = 180.0
 phase1_angle = phase0_angle
 phase2_angle = 90.0
 phase3_angle = 180.0
-
 
 I_max = 15
 
@@ -197,8 +198,8 @@ for kd in [0.0005,0.001,0.002,0.004, 0.008]:
         print(time_angle)
         print(computer_timestamps)
 
-        np.save('time_angle_I{}p{}d{}.npy'.format(int(I_max),int(kp*1000),int(kd*1000)),time_angle)
-        np.save('computer_timestamps_I{}p{}d{}.npy'.format(int(I_max),int(kp*1000),int(kd*1000)),computer_timestamps)
+        np.save('{}time_angle_I{}p{}d{}.npy'.format(data_folder,int(I_max),int(kp*1000),int(kd*1000)),time_angle)
+        np.save('{}computer_timestamps_I{}p{}d{}.npy'.format(data_folder,int(I_max),int(kp*1000),int(kd*1000)),computer_timestamps)
 
 
 # Close the serial port
