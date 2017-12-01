@@ -264,6 +264,8 @@ def plot_m_estimates(param_dict):
     ax3.set_ylabel('Kp')
     ax3.set_xlabel('Kd')
 
+    f.savefig('plots/Mass_Estimations.png',dpi=400)
+
 
 # Plot actual damping coeff vs theoretical damping*sqrt(m). Verified
 def plot_exp_damping_vs_theoretical_damping(param_dict):
@@ -292,7 +294,7 @@ def plot_exp_damping_vs_theoretical_damping(param_dict):
     ax2.set_ylabel('Kp')
     ax2.set_xlabel('Kd')
 
-    # [[kdkps[r][c][1] / np.sqrt(kdkps[r][c][0]) for c in np.arange(0,kdkps.shape[1]) ] for r in np.arange(0,kdkps.shape[0])]
+    f.savefig('plots/Damping_Estimation.png',dpi=400)
 
 
 # Plot the experimentally derived characteristics
@@ -339,6 +341,8 @@ def plot_step_characteristics(param_dict):
     ax1.set_ylabel('Kp')
     ax3.set_ylabel('Kp')
 
+    f.savefig('plots/Step_Characteristics.png',dpi=400)
+
     # OLD STYLE OF PLOTTING
     # levels = custom_contour_levels(Mp+0.0001)
     # mp_plot = ax3.contourf(kds, kps, Mp,levels=levels)
@@ -366,6 +370,8 @@ def plot_step_responses(param_dict,kd):
         ax2.plot(step_data_15A[kp_index, kd_index], linewidth=0.5, label='Kp = {}'.format(kps[kp_index]))
     ax2.set_title('I_max = 15A Kd = {}'.format(kd))
     ax2.legend()
+
+    f.savefig('plots/Step_Responses.png',dpi=400)
 
 
 def plot_pid_response(encoder, kp, kd, dt, I_max=1, input='V1_step_routine', plot_output=True):
@@ -440,6 +446,9 @@ plot_step_characteristics(param_dict)
 plot_m_estimates(param_dict)
 plot_exp_damping_vs_theoretical_damping(param_dict)
 plot_step_responses(param_dict,kd=0.004)
+
+# The plot functions don't call show() themselves
+# so call show() at the end of the program manually
 plt.show()
 
 
