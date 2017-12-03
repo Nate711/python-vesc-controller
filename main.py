@@ -66,7 +66,7 @@ phase1_angle = phase0_angle
 phase2_angle = 90.0
 phase3_angle = 180.0
 
-I_max = 15
+I_max = 40
 
 teensy = open_serial(teensy_serial_port,BAUDRATE)
 

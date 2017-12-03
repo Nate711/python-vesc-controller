@@ -51,7 +51,7 @@ def load_spec_dict(filenames_prefix):
     # TODO: change the Kd multiplier for when it saves the file so that 0.0005 Kd is not 0.0
     kd_test_vals = [0.0000, 0.001, 0.002, 0.004, 0.008]
     kp_test_vals = [0.025, 0.05, 0.1, 0.2, 0.3]
-    I_max_test_vals = [15, 30]
+    I_max_test_vals = [15, 30, 40]
     kdn = len(kd_test_vals)
     kpn = len(kp_test_vals)
     I_maxn = len(I_max_test_vals)
@@ -353,6 +353,8 @@ def plot_step_characteristics(param_dict):
 def plot_step_responses(param_dict,kd):
     step_data_15A = param_dict['step_data'][0]
     step_data_30A = param_dict['step_data'][1]
+    step_data_40A = param_dict['step_data'][2]
+    print(step_data_40A)
 
     kps = [0.025, 0.05, 0.1, 0.2, 0.3]
     kds = [0.0005, 0.001, 0.002, 0.004, 0.008]
@@ -361,12 +363,12 @@ def plot_step_responses(param_dict,kd):
 
     f,(ax1,ax2) = plt.subplots(1,2)
 
-    for kp_index in np.arange(step_data_30A.shape[0]):
-        ax1.plot(step_data_30A[kp_index, kd_index], linewidth=0.5, label='Kp = {}'.format(kps[kp_index]))
-    ax1.set_title('I_max = 30A Kd = {}'.format(kd))
+    for kp_index in np.arange(step_data_40A.shape[1]):
+        ax1.plot(step_data_40A[kp_index, kd_index], linewidth=0.5, label='Kp = {}'.format(kps[kp_index]))
+    ax1.set_title('I_max = 40A Kd = {}'.format(kd))
     ax1.legend()
 
-    for kp_index in np.arange(step_data_30A.shape[0]):
+    for kp_index in np.arange(step_data_15A.shape[0]):
         ax2.plot(step_data_15A[kp_index, kd_index], linewidth=0.5, label='Kp = {}'.format(kps[kp_index]))
     ax2.set_title('I_max = 15A Kd = {}'.format(kd))
     ax2.legend()
@@ -441,15 +443,28 @@ def theoretical_specs(m, b, k):
 # TODO: load kds and kps into param dictionary when it goes through the files
 # TODO: remove kps and kds references in the plot functions
 
-param_dict = load_spec_dict('data/time_angle_')
-plot_step_characteristics(param_dict)
-plot_m_estimates(param_dict)
-plot_exp_damping_vs_theoretical_damping(param_dict)
-plot_step_responses(param_dict,kd=0.004)
+(position,times) = load_position_time_vectors('data/time_angle_I40p300d1.npy')
+plt.figure()
+plt.plot(position)
+# plt.show()
+
+phase1 = position[0:250]
+plt.figure()
+plt.plot(phase1)
+# plt.show()
+plot_fft_of_ss(phase1)
+plt.show()
+# plot_pid_response(position,0.3,0.001,0.002,40)
+
+# param_dict = load_spec_dict('data/time_angle_')
+# plot_step_characteristics(param_dict)
+# plot_m_estimates(param_dict)
+# plot_exp_damping_vs_theoretical_damping(param_dict)
+# plot_step_responses(param_dict,kd=0.004)
 
 # The plot functions don't call show() themselves
 # so call show() at the end of the program manually
-plt.show()
+# plt.show()
 
 
 # (position, times) = load_position_time_vectors('data/time_angle_I15p300d2.npy')
